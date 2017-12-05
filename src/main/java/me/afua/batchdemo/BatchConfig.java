@@ -6,6 +6,7 @@ import org.springframework.batch.core.configuration.annotation.EnableBatchProces
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.item.data.RepositoryItemWriter;
 import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;
@@ -30,8 +31,11 @@ public class BatchConfig {
     @Autowired
     public StepBuilderFactory stepBuilderFactory;
 
+//    @Autowired
+//    public DataSource dataSource;
+
     @Autowired
-    public DataSource dataSource;
+    PersonRepository personRepository;
 
     @Bean
     public FlatFileItemReader<Person> reader(){
@@ -62,16 +66,24 @@ public class BatchConfig {
     {
         return new PersonItemProcessor();
     }
+//
+//    @Bean
+//    public JdbcBatchItemWriter<Person> writer(){
+//        JdbcBatchItemWriter<Person> writer = new JdbcBatchItemWriter<Person>();
+//        writer.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<Person>());
+//        writer.setSql("INSERT INTO people(first_name,last_name) VALUES (:firstName, :lastName)");
+//        writer.setDataSource(dataSource);
+//        return writer;
+//    }
 
     @Bean
-    public JdbcBatchItemWriter<Person> writer(){
-        JdbcBatchItemWriter<Person> writer = new JdbcBatchItemWriter<Person>();
-        writer.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<Person>());
-        writer.setSql("INSERT INTO people(first_name,last_name) VALUES (:firstName, :lastName)");
-        writer.setDataSource(dataSource);
+    public RepositoryItemWriter<Person> writer()
+    {
+        RepositoryItemWriter writer = new RepositoryItemWriter();
+        writer.setRepository(personRepository);
+        writer.setMethodName("save");
         return writer;
     }
-
 
 
     //This does the jobstep
