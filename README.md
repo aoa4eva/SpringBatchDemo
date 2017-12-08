@@ -1,4 +1,4 @@
-# SpringBatchDemo1
+# SpringBatchDemo
 ## An enhanced Spring Batch Batch example from Spring Guides
 
 This project builds on the example from https://spring.io/guides/gs/batch-processing/
