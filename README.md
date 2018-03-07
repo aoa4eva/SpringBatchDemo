@@ -11,10 +11,10 @@ A logger is used to indicate the status of the job.
 
 The destination is a MYSQL database. For each record, the data is converted to upper case and then stored. 
 
-This example modifieds the spring batch processing guide as follows: 
+This example modifies the spring batch processing guide as follows: 
 
 1. Adds @Entity annotation to the Person object, so that data can be stored to the database
-2. Adds a PersonRepository to establish a connection do the database
+2. Adds a PersonRepository to establish a connection to the database
 3. Adds a RepositoryWriterItem repoWriter method, which allows data that is read from the csv (using the reader method) to be saved to the database. 
 4. In the repoWriter method, the an instance of the PersonRepository is defined, and the operation to be performed is selected by using the setMethodName() method. 
 
